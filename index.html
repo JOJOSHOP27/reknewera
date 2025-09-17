@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAYMENT REKNEWERA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --accent: #fd79a8;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --success: #00b894;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      --glass: rgba(255, 255, 255, 0.15);
+      --glass-border: rgba(255, 255, 255, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: url("https://files.catbox.moe/h0jmcl.jpg") no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: white;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Overlay biar teks tetap terbaca */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+      backdrop-filter: blur(3px);
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .payment-method:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .payment-icon {
+      width: 45px;
+      height: 45px;
+      margin-right: 15px;
+      border-radius: 10px;
+      background: white;
+      padding: 5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .payment-details {
+      flex: 1;
+    }
+
+    .payment-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 3px;
+    }
+
+    .payment-number {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .qris-section {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.3);
+    }
+
+    .qris-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .qris-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .qris-image:hover {
+      transform: scale(1.05);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--success);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      transform: translateX(150%);
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      font-size: 0.9rem;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .payment-method {
+        flex-wrap: wrap;
+        text-align: center;
+      }
+      .payment-icon {
+        margin: 0 auto 10px;
+      }
+      .copy-btn {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">PAYMENT REKNEWERA</div>
+      <div class="subtitle">Choose your payment method</div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="payment-method" onclick="copyToClipboard('0895414895040', 'DANA')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="payment-icon">
+      <div class="payment-details">
+        <div class="payment-name">DANA</div>
+        <div class="payment-number">0895414895040</div>
+      </div>
+      <button class="copy-btn">Copy</button>
+    </div>
+
+    <!-- QRIS -->
+    <div class="qris-section">
+      <div class="qris-title">QRIS Payment</div>
+      <img src="https://files.catbox.moe/5n5dzp.jpg" alt="QRIS" class="qris-image" onclick="openQrisModal()">
+      <p style="margin-top: 10px; color: rgba(255,255,255,0.7); font-size: 0.9rem;">Tap to enlarge</p>
+    </div>
+
+    <div class="footer">
+      After payment, please confirm via WhatsApp with your transaction details.
+    </div>
+  </div>
+
+  <div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i> Copied to clipboard!
+  </div>
+
+  <!-- QRIS Modal -->
+  <div id="qrisModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000;">
+    <div style="position: relative; max-width: 90%; max-height: 90%;">
+      <img src="https://files.catbox.moe/5n5dzp.jpg" alt="QRIS" style="max-width: 100%; max-height: 80vh; border-radius: 12px;">
+      <button onclick="closeQrisModal()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function copyToClipboard(text, method) {
+      navigator.clipboard.writeText(text).then(() => {
+        showNotification(`${method} number copied!`);
+      });
+    }
+
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+      notification.classList.add('show');
+      setTimeout(() => notification.classList.remove('show'), 3000);
+    }
+
+    function openQrisModal() {
+      document.getElementById('qrisModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeQrisModal() {
+      document.getElementById('qrisModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  </script>
+</body>
+</html>
